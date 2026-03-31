@@ -1,0 +1,18 @@
+{
+  "name": "ms-gadget-planet-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/storefront",
+    "apps/admin-panel",
+    "server"
+  ],
+  "scripts": {
+    "install:all": "npm install --workspaces",
+    "dev:storefront": "npm run dev --workspace storefront",
+    "dev:admin": "npm run dev --workspace admin-panel",
+    "dev:server": "npm run dev --workspace server",
+    "seed": "npm run seed --workspace server",
+    "build": "npm run build --workspace storefront && npm run build --workspace admin-panel"
+  }
+}
