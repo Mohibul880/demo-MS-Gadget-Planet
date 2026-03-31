@@ -14,7 +14,9 @@ const ProductDetails = () => {
   const [formData, setFormData] = useState({
     customerName: "",
     phone: "",
+    email: "",
     address: "",
+    note: "",
     quantity: 1,
   });
 
@@ -47,24 +49,27 @@ const ProductDetails = () => {
 
     if (!product) return;
 
-    try {
-      const payload = {
-        customerName: formData.customerName,
-        phone: formData.phone,
-        address: formData.address,
-        quantity: Number(formData.quantity),
-        items: [
-          {
-            product: product._id,
-            name: product.name,
-            price: product.price,
-            quantity: Number(formData.quantity),
-            image: product.image,
-          },
-        ],
-        totalAmount: product.price * Number(formData.quantity),
-      };
+    const quantity = Number(formData.quantity);
 
+    const payload = {
+      customerName: formData.customerName,
+      phone: formData.phone,
+      email: formData.email,
+      address: formData.address,
+      note: formData.note,
+      totalAmount: Number(product.price) * quantity,
+      items: [
+        {
+          productId: product._id,
+          name: product.name,
+          image: product.image,
+          price: Number(product.price),
+          quantity,
+        },
+      ],
+    };
+
+    try {
       await api.post("/orders", payload);
 
       alert("Order placed successfully!");
@@ -72,12 +77,14 @@ const ProductDetails = () => {
       setFormData({
         customerName: "",
         phone: "",
+        email: "",
         address: "",
+        note: "",
         quantity: 1,
       });
     } catch (error) {
       console.error("Order submit failed:", error);
-      alert("Order submit failed. Please try again.");
+      alert(error.response?.data?.message || "Order submit failed. Please try again.");
     }
   };
 
@@ -105,7 +112,6 @@ const ProductDetails = () => {
     <section className="py-12">
       <div className="container mx-auto px-4">
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Left Side - Product Image */}
           <div className="overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-lg">
             <img
               src={product.image}
@@ -118,7 +124,6 @@ const ProductDetails = () => {
             />
           </div>
 
-          {/* Right Side - Product Info + Order Form */}
           <div className="rounded-2xl border border-base-300 bg-base-100 p-6 shadow-lg">
             <h1 className="text-3xl font-bold">{product.name}</h1>
 
@@ -169,14 +174,32 @@ const ProductDetails = () => {
                 required
               />
 
+              <input
+                type="email"
+                name="email"
+                placeholder="Email (optional)"
+                className="input input-bordered w-full"
+                value={formData.email}
+                onChange={handleChange}
+              />
+
               <textarea
                 name="address"
                 placeholder="Your Address"
                 className="textarea textarea-bordered w-full"
-                rows="4"
+                rows="3"
                 value={formData.address}
                 onChange={handleChange}
                 required
+              ></textarea>
+
+              <textarea
+                name="note"
+                placeholder="Extra note (optional)"
+                className="textarea textarea-bordered w-full"
+                rows="2"
+                value={formData.note}
+                onChange={handleChange}
               ></textarea>
 
               <input
@@ -192,7 +215,7 @@ const ProductDetails = () => {
               <div className="rounded-lg bg-base-200 p-3 text-sm">
                 Total Price:{" "}
                 <span className="font-bold text-primary">
-                  ${product.price * Number(formData.quantity)}
+                  ${Number(product.price) * Number(formData.quantity)}
                 </span>
               </div>
 
