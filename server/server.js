@@ -21,9 +21,10 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Local development-এর জন্য সব localhost origin allow
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL, process.env.ADMIN_URL],
+    origin: true,
     credentials: true,
   })
 );
@@ -31,7 +32,7 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 
-// Static file serving for uploads
+// uploads folder static serve
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (_req, res) => {
@@ -46,4 +47,4 @@ app.use("/api/hero", heroRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});
+});s

@@ -19,6 +19,7 @@ const DashboardPage = () => {
       api.get("/products"),
       api.get("/orders"),
     ]);
+
     setProducts(productsRes.data);
     setOrders(ordersRes.data);
   };
