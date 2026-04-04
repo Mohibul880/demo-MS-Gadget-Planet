@@ -1,6 +1,3 @@
-// ==============================
-// Hero Section Controller
-// ==============================
 import HeroSection from "../models/HeroSection.js";
 
 export const getHeroSection = async (_req, res) => {

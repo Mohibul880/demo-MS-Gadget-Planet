@@ -1,6 +1,3 @@
-// ==============================
-// Hero Section
-// ==============================
 import { useEffect, useState } from "react";
 import api from "../../../services/api.js";
 
@@ -27,15 +24,10 @@ const Hero = () => {
       <div className="container mx-auto grid items-center gap-10 px-4 md:grid-cols-2">
         <div>
           <span className="badge badge-secondary mb-4">{hero.badge}</span>
-
           <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">
             {hero.title}
           </h1>
-
-          <p className="mt-4 max-w-xl text-base md:text-lg">
-            {hero.subtitle}
-          </p>
-
+          <p className="mt-4 max-w-xl text-base md:text-lg">{hero.subtitle}</p>
           <a href={hero.buttonLink || "#products"} className="btn btn-secondary mt-6">
             {hero.buttonText}
           </a>

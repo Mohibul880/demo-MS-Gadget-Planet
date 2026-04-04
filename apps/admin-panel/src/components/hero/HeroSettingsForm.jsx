@@ -1,6 +1,3 @@
-// ==============================
-// Hero Settings Form
-// ==============================
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import api from "../../services/api.js";
@@ -33,7 +30,8 @@ const HeroSettingsForm = () => {
         isActive: data.isActive ?? true,
       });
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to load hero section");
+      console.error(error);
+      toast.error("Failed to load hero section");
     }
   };
 
@@ -70,8 +68,9 @@ const HeroSettingsForm = () => {
         image: data.imageUrl,
       }));
 
-      toast.success("Hero image uploaded successfully");
+      toast.success("Image uploaded successfully");
     } catch (error) {
+      console.error(error);
       toast.error(error.response?.data?.message || "Image upload failed");
     } finally {
       setUploading(false);
@@ -85,7 +84,9 @@ const HeroSettingsForm = () => {
       setSaving(true);
       await api.put("/hero", formData);
       toast.success("Hero section updated successfully");
+      await loadHero();
     } catch (error) {
+      console.error(error);
       toast.error(error.response?.data?.message || "Hero update failed");
     } finally {
       setSaving(false);
@@ -142,7 +143,7 @@ const HeroSettingsForm = () => {
         <input
           className="input input-bordered"
           name="buttonLink"
-          placeholder="Button link (example: #products)"
+          placeholder="Button link (#products)"
           value={formData.buttonLink}
           onChange={handleChange}
           required
@@ -164,7 +165,9 @@ const HeroSettingsForm = () => {
             className="file-input file-input-bordered w-full"
             onChange={handleImageUpload}
           />
-          {uploading && <p className="mt-2 text-sm text-primary">Uploading image...</p>}
+          {uploading && (
+            <p className="mt-2 text-sm text-primary">Uploading image...</p>
+          )}
         </div>
 
         {formData.image && (

@@ -1,6 +1,3 @@
-// ==============================
-// Dashboard Page
-// ==============================
 import { useEffect, useState } from "react";
 import api from "../services/api.js";
 import StatsCards from "../components/dashboard/StatsCards/StatsCards.jsx";
@@ -19,7 +16,6 @@ const DashboardPage = () => {
       api.get("/products"),
       api.get("/orders"),
     ]);
-
     setProducts(productsRes.data);
     setOrders(ordersRes.data);
   };
