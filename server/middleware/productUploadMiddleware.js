@@ -23,8 +23,11 @@ const fileFilter = (_req, file, cb) => {
   const extOk = allowed.test(path.extname(file.originalname).toLowerCase());
   const mimeOk = allowed.test(file.mimetype);
 
-  if (extOk && mimeOk) cb(null, true);
-  else cb(new Error("Only jpg, jpeg, png, webp allowed"));
+  if (extOk && mimeOk) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only jpg, jpeg, png, webp allowed"));
+  }
 };
 
 const productUpload = multer({
